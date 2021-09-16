@@ -1,0 +1,79 @@
+name: qqmusic
+base: core18
+version: '1.1.1'
+summary: QQ Music for Linux
+description: |
+  QQ Music provides massive high-quality music for you.
+
+# grade: stable
+grade: devel
+confinement: strict
+architectures:
+  - build-on: amd64
+
+parts:
+  qqmusic:
+    plugin: dump
+    source: https://dldir1.qq.com/music/clntupate/linux/deb/qqmusic_1.1.1_amd64.deb
+    source-type: deb
+    override-pull: |
+      snapcraftctl pull
+      # Fix the name
+      sed -i -e 's|Name=qqmusic|Name=QQ Music\nName[zh]=QQ音乐|g' usr/share/applications/qqmusic.desktop
+      # Fix the executable's location
+      sed -i -e 's|Exec=/opt/qqmusic/qqmusic %U|Exec=qqmusic %U|g' usr/share/applications/qqmusic.desktop
+      # Point icon to the correct location
+      sed -i -e 's|Icon=qqmusic|Icon=${SNAP}/usr/share/icons/hicolor/256x256/apps/qqmusic.png|g' usr/share/applications/qqmusic.desktop
+    stage-packages:
+      - libgtk-3-0
+      - libnotify4
+      - libnss3
+      - libxss1
+      - libxtst6
+      - xdg-utils
+      - libatspi2.0-0
+      - libuuid1
+      - libappindicator3-1
+      - libsecret-1-0
+      - libx11-xcb1
+      - libasound2
+      - dbus-x11
+      # for /usr/bin/whereis
+      - util-linux
+
+apps:
+  qqmusic:
+    command: desktop-launch $SNAP/opt/qqmusic/qqmusic --no-sandbox
+    environment:
+      # Correct the TMPDIR path for Chromium Framework/Electron to ensure
+      # libappindicator has readable resources.
+      TMPDIR: $XDG_RUNTIME_DIR
+    extensions:
+      - gnome-3-34
+    plugs:
+# desktop
+      - desktop
+      - desktop-legacy
+      - wayland
+      - unity7
+      - x11
+      - opengl
+# electron
+      - browser-support
+      - gsettings
+      # - home
+      - network
+# audio
+      - alsa
+      - jack1
+      - pulseaudio
+      - audio-playback
+      # - audio-record
+# others
+      - avahi-observe
+      - screen-inhibit-control
+      - upower-observe
+      - bluez
+    slots:
+      - mpris
+

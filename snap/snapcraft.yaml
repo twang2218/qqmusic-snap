@@ -44,6 +44,7 @@ parts:
 apps:
   qqmusic:
     command: desktop-launch $SNAP/opt/qqmusic/qqmusic --no-sandbox
+    desktop: usr/share/applications/qqmusic.desktop
     environment:
       # Correct the TMPDIR path for Chromium Framework/Electron to ensure
       # libappindicator has readable resources.

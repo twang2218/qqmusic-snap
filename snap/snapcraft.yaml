@@ -12,7 +12,7 @@ architectures:
   - build-on: amd64
 
 parts:
-  qqmusic:
+  qqmusic-snap:
     plugin: dump
     source: https://dldir1.qq.com/music/clntupate/linux/deb/qqmusic_1.1.1_amd64.deb
     source-type: deb
@@ -40,9 +40,17 @@ parts:
       - dbus-x11
       # for /usr/bin/whereis
       - util-linux
+      # from deb installation
+      - tint2
+      - libimlib2
+      - libid3tag0
+  fix-tray:
+    plugin: dump
+    source: scripts/
+    source-type: local
 
 apps:
-  qqmusic:
+  qqmusic-snap:
     command: desktop-launch $SNAP/opt/qqmusic/qqmusic --no-sandbox
     desktop: usr/share/applications/qqmusic.desktop
     environment:
@@ -77,4 +85,3 @@ apps:
       - bluez
     slots:
       - mpris
-

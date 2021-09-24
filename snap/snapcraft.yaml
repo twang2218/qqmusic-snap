@@ -1,7 +1,7 @@
-name: qqmusic
+name: qqmusic-snap
 base: core18
 version: '1.1.1'
-summary: QQ Music for Linux
+summary: QQ Music for Linux (unofficial)
 description: |
   QQ Music provides massive high-quality music for you.
 

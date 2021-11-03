@@ -1,0 +1,28 @@
+name: Snapcraft Build
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: snapcore/action-build@v1
+        id: build
+
+      - uses: snapcore/action-publish@v1
+        with:
+          store_login: ${{ secrets.STORE_LOGIN }}
+          snap: ${{ steps.build.outputs.snap }}
+          release: edge
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: amd64.snap
+          path: ${{ steps.build.outputs.snap }}
+          if-no-files-found: error

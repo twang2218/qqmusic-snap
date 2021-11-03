@@ -5,8 +5,7 @@ summary: QQ Music for Linux (unofficial)
 description: |
   QQ Music provides massive high-quality music for you.
 
-# grade: stable
-grade: devel
+grade: stable
 confinement: strict
 architectures:
   - build-on: amd64
